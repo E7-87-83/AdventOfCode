@@ -1,5 +1,6 @@
 # AdventOfCode2021
-Looking forward to Christmas!
+
+Regretfully, I will NOT join the Advent of Code 2021, due to busy work and study schedule. -- 5th Oct 2021
 
 ---
 
