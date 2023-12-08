@@ -142,8 +142,3 @@ say $min;
 real	1m12.935s
 user	1m12.603s
 sys	0m0.016s
-
-
-real	1m13.535s
-user	1m11.967s
-sys	0m0.004s
