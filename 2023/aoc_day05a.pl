@@ -95,7 +95,7 @@ for (0..1000000) {
 }
 
 
-say $minKey;
+say $minKKey;
 for my $s ($minKKey-10000..$minKKey+10000) {
     $seed[0] = $s;
     for my $c (0..6) {
