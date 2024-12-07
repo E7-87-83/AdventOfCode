@@ -90,11 +90,31 @@ sub new_ob {
 
 }
 
+# BEGIN: From Part I
+my @trace;
+my $y = $cy;
+my $x = $cx;
+my $cur = $ccur;
+while ($y < $m && $y >= 0 && $x < $n && $x >= 0) {
+    $trace[$y][$x] = 1;
+    my $ny = $y+$m{$cur}->[0];
+    my $nx = $x+$m{$cur}->[1];
+    if ($ny < $m && $ny >= 0 && $nx < $n && $nx >= 0 && $cmap[$ny][$nx] eq "#") {
+        $cur = $nxt{$cur};
+    } else {
+        $y = $ny;
+        $x = $nx;
+    }
+}
+# END: From Part I
+
 for my $i (0..$m-1) {
     for my $j (0..$n-1) {
-        new_ob($i,$j) if $cmap[$i][$j] eq ".";
+        new_ob($i,$j) if $cmap[$i][$j] eq "." && $trace[$i][$j];
     }
 }
 
 
 say $sum;
+
+# 38.855s

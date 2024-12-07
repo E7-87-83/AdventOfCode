@@ -100,3 +100,7 @@ LOOP: for my $j (0..$#check) {
 }
 
 say $sum;
+
+#real    24m33.143s
+#user    24m31.306s
+#sys    0m0.240s
