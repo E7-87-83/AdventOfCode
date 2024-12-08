@@ -42,57 +42,54 @@ LOOP: for my $j (0..$#check) {
     my $c = $check[$j];
     my $ans = $c->[0];
     my @arr = $c->[1]->@*;
-    my $numOfOp = 3**$#arr;
-    for my $g (0..$numOfOp-1) {
-        my @stack;
-        push @stack, [$ans, $#arr, $sign{0}];
-        push @stack, [$ans, $#arr, $sign{1}];
-        push @stack, [$ans, $#arr, $sign{2}];
-        while (@stack > 0) {
-            my $cur = pop @stack;
-            my $temp = $cur->[0];
-            my $i = $cur->[1];
-            my $sign = $cur->[2];
-            #say join " ", $ans, $temp, $i, $sign;
-            if ($sign eq "-") {
-                $temp -= $arr[$i];
+    my @stack;
+    push @stack, [$ans, $#arr, $sign{0}];
+    push @stack, [$ans, $#arr, $sign{1}];
+    push @stack, [$ans, $#arr, $sign{2}];
+    while (@stack > 0) {
+        my $cur = pop @stack;
+        my $temp = $cur->[0];
+        my $i = $cur->[1];
+        my $sign = $cur->[2];
+        #say join " ", $ans, $temp, $i, $sign;
+        if ($sign eq "-") {
+            $temp -= $arr[$i];
+            if ($i == 0) {
+                if ($temp == 0) {
+                    $sum += $ans; 
+                    next LOOP;
+                }
+            } elsif ($temp > 0) {
+                push @stack, [$temp, $i-1, $sign{0}];
+                push @stack, [$temp, $i-1, $sign{1}];
+                push @stack, [$temp, $i-1, $sign{2}];
+            }
+        } elsif ($sign eq "/") {
+            if ($temp % $arr[$i] == 0) {
+                $temp /= $arr[$i];
                 if ($i == 0) {
-                    if ($temp == 0) {
-                        $sum += $ans; 
+                    if ($temp == 1) {
+                        $sum += $ans;
                         next LOOP;
                     }
-                } elsif ($temp > 0) {
+                } else {
                     push @stack, [$temp, $i-1, $sign{0}];
                     push @stack, [$temp, $i-1, $sign{1}];
                     push @stack, [$temp, $i-1, $sign{2}];
                 }
-            } elsif ($sign eq "/") {
-                if ($temp % $arr[$i] == 0) {
-                    $temp /= $arr[$i];
-                    if ($i == 0) {
-                        if ($temp == 1) {
-                            $sum += $ans;
-                            next LOOP;
-                        }
-                    } else {
-                        push @stack, [$temp, $i-1, $sign{0}];
-                        push @stack, [$temp, $i-1, $sign{1}];
-                        push @stack, [$temp, $i-1, $sign{2}];
+            }
+        } elsif ($sign eq ".") {
+            if (substr($temp,-length "$arr[$i]") eq "$arr[$i]") {
+                $temp = substr( $temp, 0 , (length("$temp")-length("$arr[$i]")));
+                if ($i == 0) {
+                    if ($temp eq "") {
+                        $sum += $ans; 
+                        next LOOP;
                     }
-                }
-            } elsif ($sign eq ".") {
-                if (substr($temp,-length "$arr[$i]") eq "$arr[$i]") {
-                    $temp = substr( $temp, 0 , (length("$temp")-length("$arr[$i]")));
-                    if ($i == 0) {
-                        if ($temp eq "") {
-                            $sum += $ans; 
-                            next LOOP;
-                        }
-                    } elsif ($temp ne "") {
-                        push @stack, [$temp, $i-1, $sign{0}];
-                        push @stack, [$temp, $i-1, $sign{1}];
-                        push @stack, [$temp, $i-1, $sign{2}];
-                    }
+                } elsif ($temp ne "") {
+                    push @stack, [$temp, $i-1, $sign{0}];
+                    push @stack, [$temp, $i-1, $sign{1}];
+                    push @stack, [$temp, $i-1, $sign{2}];
                 }
             }
         }
@@ -101,6 +98,7 @@ LOOP: for my $j (0..$#check) {
 
 say $sum;
 
-#real    24m33.143s
-#user    24m31.306s
-#sys    0m0.240s
+#real	0m0.601s
+#user	0m0.581s
+#sys	0m0.016s
+
