@@ -138,4 +138,3 @@ for my $c (keys %cnt) {
 }
 
 say $sum;
-=cut
